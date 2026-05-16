@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>石佳康 | 主页导航</title>
+    <style>
+        /* CSS Reset & 基础设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            /* 优先调用苹果 PingFang 字体，确保中文显示纤细优雅 */
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+            background-color: #050505;
+            color: #E0E0E0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+        }
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 质感设计：深邃光晕背景 */
+        .bg-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 80vw;
+            height: 80vw;
+            max-width: 800px;
+            max-height: 800px;
+            background: radial-gradient(circle, rgba(255,255,255,0.035) 0%, rgba(0,0,0,0) 70%);
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            animation: pulse 10s ease-in-out infinite alternate;
+        }
+
+        /* 质感设计：高级噪点层 */
+        .bg-noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+        }
+
+        /* 页面主体容器 */
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 480px;
+            padding: 60px 24px 80px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 头部 */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 4px;
+            background: rgba(255,255,255,0.02);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.8);
+            transition: transform 0.5s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 400;
+            letter-spacing: 6px; 
+            margin-left: 6px; /* 补偿字间距带来的视觉偏移，让名字完美居中 */
+            color: #FFFFFF;
+            margin-bottom: 14px;
+        }
+
+        p {
+            font-size: 13px;
+            font-weight: 300;
+            color: #888888;
+            letter-spacing: 2px;
+        }
+
+        /* 链接列表区 */
+        .links-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .category-title {
+            font-size: 12px;
+            font-weight: 300;
+            color: #555555;
+            letter-spacing: 4px;
+            margin-left: 4px;
+            text-align: center;
+            margin-top: 24px;
+            margin-bottom: 4px;
+        }
+
+        .category-title:first-of-type {
+            margin-top: 0;
+        }
+
+        /* 毛玻璃卡片 */
+        .link-card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 16px 24px;
+            text-decoration: none;
+            color: #D0D0D0;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 1.5px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .link-card:hover {
+            color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.6), 
+                        0 0 20px -5px rgba(255, 255, 255, 0.05);
+        }
+
+        .link-card::after {
+            content: '→';
+            position: absolute;
+            right: 24px;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .link-card:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* 魔法提示微标签 */
+        .magic-tag {
+            font-size: 10px;
+            font-weight: 300;
+            color: #666;
+            margin-left: 8px;
+            letter-spacing: 0.5px;
+            transition: color 0.4s ease;
+        }
+
+        .link-card:hover .magic-tag {
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 氛围背景层 -->
+    <div class="bg-glow"></div>
+    <div class="bg-noise"></div>
+
+    <!-- 主体内容 -->
+    <main class="container">
+        <!-- 头部信息 -->
+        <header class="header">
+            <!-- 建议替换为你的真实头像/Logo的图片链接 -->
+            <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Creative" alt="头像" class="avatar">
+            
+            <h1>石佳康</h1>
+            <!-- 修改为 AI 探索者 -->
+            <p>创意开发者 · AI 探索者</p>
+        </header>
+
+        <!-- 链接列表区 -->
+        <nav class="links-container">
+            
+            <!-- 分类 1：作品集 -->
+            <div class="category-title">作品集</div>
+            
+            <a href="https://jk04020808-arch.github.io/holographic-engine/" target="_blank" class="link-card">
+                01. 3D粒子溶解重组特效
+            </a>
+            <a href="https://jk04020808-arch.github.io/quanqiu-yinyue/" target="_blank" class="link-card">
+                02. 3D地球音乐热力图
+            </a>
+            <a href="https://jk04020808-arch.github.io/portfolio-showcase/" target="_blank" class="link-card">
+                03. 多智能体海报生成器
+            </a>
+            <a href="https://jk04020808-arch.github.io/3d-portfolio/" target="_blank" class="link-card">
+                04. 3D三视图与尺寸标注工具
+            </a>
+
+            <!-- 分类 2：项目体验 -->
+            <div class="category-title">项目体验</div>
+            
+            <a href="https://global-beats-3d.vercel.app" target="_blank" class="link-card">
+                3D地球音乐热力图 <span class="magic-tag">[ 需魔法 ]</span>
+            </a>
+            <a href="https://lizi-shiti.vercel.app/" target="_blank" class="link-card">
+                3D粒子溶解重组特效 <span class="magic-tag">[ 需魔法 ]</span>
+            </a>
+            <a href="https://trihunyuan-studio.vercel.app" target="_blank" class="link-card">
+                3D三视图与尺寸标注工具 <span class="magic-tag">[ 需魔法 ]</span>
+            </a>
+
+        </nav>
+    </main>
+
+</body>
+</html>
